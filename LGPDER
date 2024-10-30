@@ -1,0 +1,28 @@
+from bs4 import BeautifulSoup
+import requests
+
+
+
+
+
+#func com parametros para receber, url e palavra a ser encontrada
+def LGPDReader (url,lgpd):
+ #faz requisicao
+ response = requests.get(url)
+ if response.status_code ==200:
+  #se pagina acessada analisa o HTML da pagina
+  soup = BeautifulSoup(response.content,'html.parser') 
+  bodyContent = soup.find_all("body")  
+
+  #loop para analisar o html da pagina
+  for body in bodyContent:
+    textoBody = body.get_text()
+
+    #verifica se há palavra dentro do html
+    if lgpd.lower() in textoBody.lower():
+      lgpdFinder = "site contém LGPD"
+  return lgpdFinder
+
+url = input('insira a ulr desejada para ser scaneada: ')
+lgpd = 'LGPD'
+LGPDReader(url,lgpd)
